@@ -45,11 +45,15 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          args: 'c("--no-manual", "--as-cran")'
           extra-packages: any::rcmdcheck
           needs: check
+          
+      - name: Install torch
+        run: |
+          Rscript -e "torch::install_torch()"
 
       - uses: r-lib/actions/check-r-package@v2
         with:
+          args: 'c("--no-manual", "--as-cran")'
           upload-snapshots: true
           error-on: '"error"' 

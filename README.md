@@ -46,8 +46,8 @@ vad$vad_segments
 Example of a simple plot of these audio and voice segments
 
 ```{r}
-library(av)
-x <- read_audio_bin(file)
+library(wav)
+x <- read_wav(file)
 plot(seq_along(x) / 16000, x, type = "l", xlab = "Seconds", ylab = "Signal")
 lines(vad$vad$millisecond / 1000, vad$vad$probability *  max(x), type = "l", col = "red", lwd = 2)
 ```

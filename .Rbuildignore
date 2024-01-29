@@ -1,0 +1,6 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+.github
+.vscode
+inst/dev
+LICENSE.note

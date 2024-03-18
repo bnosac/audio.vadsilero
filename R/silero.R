@@ -102,17 +102,19 @@ SILERO <- function(){
 }
 
 predict.SILERO <- function(object, newdata, sample_rate, milliseconds, window = milliseconds * (sample_rate / 1000), threshold = 0.5){
+    sound       <- audio::load.wave(newdata)
+    sample_rate <- attr(sound, which = "rate")
+    n_samples   <- length(sound)
+    sample_rate <- torch::jit_scalar(as.integer(sample_rate))
+    
     if(!sample_rate %in% c(8000, 16000)){
         stop("sample_rate should be 8000 or 16000")
     }
     if(!window %in% c(256, 512, 768, 1024, 1536)){
         stop("Unknown combination of milliseconds and sample_rate")
     }
-    sound       <- wav::read_wav(newdata)
-    sound       <- sound[1, ]
+    
     test        <- torch::torch_tensor(sound)
-    n_samples   <- length(sound)
-    sample_rate <- torch::jit_scalar(sample_rate)
     
     elements    <- seq.int(from = 1, to = n_samples, by = window)
     out         <- numeric(length = length(elements))
@@ -121,10 +123,12 @@ predict.SILERO <- function(object, newdata, sample_rate, milliseconds, window = 
         if((elements[i]+window-1) > n_samples){
             samples <- sound[elements[i]:length(sound)]
             samples <- c(samples, rep(as.numeric(0), times = window - length(samples)))
-            out[i]  <- as.numeric(object$model$forward(torch::torch_tensor(samples), sr = sample_rate))    
+            samples <- torch::torch_tensor(samples)
+            out[i]  <- as.numeric(object$model$forward(samples, sr = sample_rate))    
         }else{
             samples <- test[elements[i]:(elements[i]+window-1)]
-            samples <- torch::torch_tensor(samples)
+            #samples <- torch::torch_tensor(samples)
+            #print(str(samples))
             out[i]  <- as.numeric(object$model$forward(samples, sr = sample_rate))    
         }
     }

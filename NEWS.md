@@ -1,6 +1,7 @@
 ## CHANGES IN audio.vadsilero VERSION 0.2
 
 - disable the gradient history recording & set model in evaluation (inference) mode
+- replace package wav with package audio for reading in the wav file
 
 ## CHANGES IN audio.vadsilero VERSION 0.1
 

@@ -43,8 +43,9 @@ vad
 vad  <- silero(file, milliseconds = 96)
 vad
 vad$vad_segments
-hist(vad$vad$probability)
-plot(vad$vad$millisecond, vad$vad$probability, type = "l")
+hist(vad$vad$probability, col = "lightblue", xlab = "Probability voiced")
+plot(vad$vad$millisecond, vad$vad$probability, type = "l", 
+     xlab = "Millisecond", ylab = "Probability voiced")
 
 \dontrun{
 library(av)

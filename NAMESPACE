@@ -2,7 +2,8 @@
 
 S3method(print,VAD)
 export(silero)
+importFrom(audio,load.wave)
+importFrom(torch,autograd_set_grad_mode)
 importFrom(torch,jit_load)
 importFrom(torch,jit_scalar)
 importFrom(torch,torch_tensor)
-importFrom(wav,read_wav)

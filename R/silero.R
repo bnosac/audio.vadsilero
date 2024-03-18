@@ -93,7 +93,9 @@ silero <- function(file,
 }
 
 SILERO <- function(){
-    mod <- torch::jit_load(system.file(package = "audio.vadsilero", "models", "silero_vad.jit"))
+    autograd_set_grad_mode(FALSE)
+    mod <- jit_load(system.file(package = "audio.vadsilero", "models", "silero_vad.jit"))
+    mod$eval()
     out <- list(model = mod, version = "v4")
     class(out) <- "SILERO"
     out

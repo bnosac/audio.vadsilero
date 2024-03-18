@@ -1,3 +1,7 @@
+## CHANGES IN audio.vadsilero VERSION 0.2
+
+- disable the gradient history recording & set model in evaluation (inference) mode
+
 ## CHANGES IN audio.vadsilero VERSION 0.1
 
 - Added function Silero to detect voice in audio

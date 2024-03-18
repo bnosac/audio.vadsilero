@@ -4,16 +4,16 @@
 \alias{silero}
 \title{Voice Activity Detection}
 \usage{
-silero(file, milliseconds = 64, sample_rate, threshold = 0.5)
+silero(file, milliseconds = 64, threshold = 0.5, threads = 1L)
 }
 \arguments{
 \item{file}{the path to an audio file which should be a wav file in 16 bit with mono PCM samples (pcm_s16le codec) with a sampling rate of either 8Khz or 16KHz}
 
 \item{milliseconds}{integer with the number of milliseconds indicating to compute by this number of milliseconds the VAD signal. Can only be 32, 64 or 96 Defaults to 64.}
 
-\item{sample_rate}{integer with the sample rate of \code{file}. If not provided, will use package av to extract it.}
-
 \item{threshold}{numeric indicating if the probability is above this threshold, the segment is detected as voiced. Defaults to 0.5}
+
+\item{threads}{integer with the number of threads to use, which is passed on to \code{\link[torch]{torch_set_num_threads}}. Defaults to 1.}
 }
 \value{
 an object of class \code{VAD} which is a list with elements
@@ -46,6 +46,12 @@ vad$vad_segments
 hist(vad$vad$probability, col = "lightblue", xlab = "Probability voiced")
 plot(vad$vad$millisecond, vad$vad$probability, type = "l", 
      xlab = "Millisecond", ylab = "Probability voiced")
+
+library(audio)
+x <- load.wave(file)
+plot(seq_along(x) / 16000, x, type = "l")
+abline(v = vad$vad_segments$start, col = "red", lwd = 2)
+abline(v = vad$vad_segments$end, col = "blue", lwd = 2)
 
 \dontrun{
 library(av)
